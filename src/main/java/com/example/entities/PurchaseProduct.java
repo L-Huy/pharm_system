@@ -30,6 +30,6 @@ public class PurchaseProduct extends BaseEntity {
     private Purchase purchase;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "product_of_stockId")
+    private Stock stock;
 }
