@@ -40,4 +40,8 @@ public class Employee extends BaseEntity {
     @OneToMany(mappedBy = "employee")
     private List<Order> orderList;
 
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
 }

@@ -21,22 +21,10 @@ public class Product extends BaseEntity {
     @Column(length = 100, nullable = false)
     private String product_name;
 
-    @Column(columnDefinition = "DECIMAL(10,2)", nullable = false)
-    private double sale_price;
-
-    @Column(columnDefinition = "DECIMAL(10,2)", nullable = false)
-    private double cost_price;
-
     @Column(length = 100)
     private String treatment;
 
     @OneToMany(mappedBy = "product")
     private List<Stock> stocks;
-
-    @OneToMany(mappedBy = "product")
-    private List<PurchaseProduct> purchaseProductList;
-
-    @OneToMany(mappedBy = "product")
-    private List<OrderProduct> orderProductList;
 
 }
