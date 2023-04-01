@@ -8,36 +8,31 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_order")
+@Table(name = "tb_purchaseINV")
 
-public class Order extends BaseEntity {
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+public class PurchaseInvoice extends BaseEntity {
+    @Column(length = 13, nullable = false)
+    private String invoice;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @JoinColumn(name = "purchase_id")
+    private Purchase purchase;
 
-    @Column(nullable = false, columnDefinition = "DECIMAL(10,2)", updatable = false)
-    private double total_payment;
+    @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
+    private double total_paid;
+
+    @ManyToOne
+    @JoinColumn(name = "paymentType_id")
+    private PaymentType paymentType;
+
 
     @Column(name = "invoice_status", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
     private invoiceEnum invoice_stat;
-
-    @OneToOne(mappedBy = "order")
-    private OrderInvoice orderInvoice;
-
-    @OneToMany(mappedBy = "order")
-    private List<OrderProduct> orderProductList;
 
 }
