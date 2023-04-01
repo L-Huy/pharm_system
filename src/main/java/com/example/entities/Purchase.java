@@ -19,10 +19,6 @@ import java.util.List;
 
 public class Purchase extends BaseEntity {
 
-    @Column(name = "Invoice", length = 20, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private invoiceEnum invoice_stat;
-
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
@@ -30,6 +26,16 @@ public class Purchase extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
+
+    @Column(nullable = false, columnDefinition = "DECIMAL(10,2)", updatable = false)
+    private double total_payment;
+
+    @Column(name = "invoice_status", length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private invoiceEnum invoice_stat;
+
+    @OneToMany(mappedBy = "purchase")
+    private List<PurchaseInvoice> purchaseInvoices;
 
     @OneToMany(mappedBy = "purchase")
     private List<PurchaseProduct> purchaseProductList;

@@ -19,10 +19,10 @@ public class OrderProduct extends BaseEntity {
     @Column(nullable = false, updatable = false)
     private int qty;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, columnDefinition = "DECIMAL(10,2)")
     private double sale_price;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, columnDefinition = "DECIMAL(10,2)")
     private double total_sale;
 
     @ManyToOne
