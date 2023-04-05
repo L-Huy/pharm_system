@@ -24,5 +24,4 @@ public class Uom extends BaseEntity {
     @OneToMany(mappedBy = "uom")
     private List<Stock> stocks;
 
-
 }
