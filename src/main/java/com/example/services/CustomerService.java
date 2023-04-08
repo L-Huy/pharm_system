@@ -5,7 +5,9 @@ import com.example.entities.Customer;
 import java.util.List;
 
 public interface CustomerService {
-    List<Customer> selectAll();
-    String selectById (long id);
-    Customer Add(Customer customer);
+    List<Customer> findAll();
+    Customer add(Customer customer);
+    Customer update(Customer customer);
+    boolean deleteById(Long id);
+    Customer findById(Long id);
 }
