@@ -16,10 +16,10 @@ public class UomServiceImpl implements UomService {
         this.uomRepo = uomRepo;
     }
 
-    @Override
+/*    @Override
     public List<Uom> findAll() {
         return uomRepo.findAll();
-    }
+    }*/
 
     @Override
     public Uom add(Uom uom) {

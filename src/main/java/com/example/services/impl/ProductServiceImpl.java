@@ -17,10 +17,10 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepo productRepo){
         this.productRepo = productRepo;
     }
-    @Override
-    public List<Product> findAll() {
-        return this.productRepo.findAll();
-    }
+//    @Override
+//    public List<Product> findAll() {
+//        return this.productRepo.findAll();
+//    }
 
     @Override
     public Product add(Product product) {

@@ -21,12 +21,6 @@ public class Stock extends BaseEntity {
     @Column(nullable = false)
     private long qty_on_hand;
 
-    @Column(columnDefinition = "DECIMAL(10,2)", nullable = false)
-    private double sale_price;
-
-    @Column(columnDefinition = "DECIMAL(10,2)", nullable = false)
-    private double cost_price;
-
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

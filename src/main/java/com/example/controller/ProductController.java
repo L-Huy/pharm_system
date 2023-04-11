@@ -33,7 +33,7 @@ public class ProductController {
         return this.productService.deleteById(id);
     }
 
-    @GetMapping("/find/{id}")
+/*    @GetMapping("/find/{id}")
     public Product findById(@PathVariable Long id){
         return this.productService.findById(id);
     }
@@ -41,5 +41,5 @@ public class ProductController {
     @GetMapping("/find")
     public List<Product> findAll(){
         return this.productService.findAll();
-    }
+    }*/
 }
