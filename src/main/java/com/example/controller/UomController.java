@@ -33,7 +33,7 @@ public class UomController {
         return this.uomService.deleteById(id);
     }
 
-    @GetMapping("/find/{id}")
+/*    @GetMapping("/find/{id}")
     public Uom findById(@PathVariable Long id){
         return this.uomService.findById(id);
     }
@@ -41,5 +41,5 @@ public class UomController {
     @GetMapping("/find")
     public List<Uom> findAll(){
         return this.uomService.findAll();
-    }
+    }*/
 }
