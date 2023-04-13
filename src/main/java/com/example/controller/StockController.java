@@ -39,7 +39,6 @@ public class StockController {
             System.out.println("Product/Uom is not found!");
             return null;
         }
-        stock.setCreatedBy("Admin");
         stock.setQty_on_hand(req.getQty_on_hand());
         stock.setUom(uom);
         stock.setProduct(product);
@@ -57,7 +56,6 @@ public class StockController {
             System.out.println("Product/Uom is not found!");
             return null;
         }
-        stock.setUpdatedBy("Admin");
         stock.setId(req.getId());
         stock.setQty_on_hand(req.getQty_on_hand());
         stock.setUom(uom);
