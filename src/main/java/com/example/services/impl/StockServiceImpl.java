@@ -17,6 +17,7 @@ public class StockServiceImpl implements StockService {
     }
     @Override
     public Stock add(Stock stock) {
+        stock.setCreatedBy("Admin");
         return this.stockRepo.save(stock);
     }
 
@@ -26,6 +27,7 @@ public class StockServiceImpl implements StockService {
         if (s == null) {
             return null;
         }
+        s.setUpdatedBy("Admin");
         s.setQty_on_hand(stock.getQty_on_hand());
         s.setProduct(stock.getProduct());
         s.setUom(stock.getUom());
