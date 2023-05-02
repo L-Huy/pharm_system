@@ -9,4 +9,5 @@ public interface PurchaseService {
     Purchase update(Purchase purchase);
     boolean deleteById(Long id);
     List<Purchase> findAll();
+    Purchase findById(Long id);
 }

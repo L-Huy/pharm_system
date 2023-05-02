@@ -48,4 +48,9 @@ public class StockServiceImpl implements StockService {
     public List<Stock> findAll() {
         return this.stockRepo.findAll();
     }
+
+    @Override
+    public Stock findById(Long id) {
+        return this.stockRepo.findById(id).orElse(null);
+    }
 }

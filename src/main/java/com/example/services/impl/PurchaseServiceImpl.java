@@ -1,8 +1,6 @@
 package com.example.services.impl;
 
-import com.example.entities.Order;
 import com.example.entities.Purchase;
-import com.example.entities.enumclass.invoiceEnum;
 import com.example.repositories.PurchaseRepo;
 import com.example.services.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public Purchase add(Purchase purchase) {
         purchase.setCreatedBy("Admin");
-        purchase.setInvoice_stat(invoiceEnum.valueOf("unpaid"));
         return this.purchaseRepo.save(purchase);
     }
 
@@ -31,8 +28,6 @@ public class PurchaseServiceImpl implements PurchaseService {
             return null;
         }
         p.setUpdatedBy("Admin");
-        p.setInvoice_stat(purchase.getInvoice_stat());
-        p.setTotal_payment(purchase.getTotal_payment()); //will change later with auto calculation from tb_order_products
         p.setEmployee(purchase.getEmployee());
         p.setSupplier(purchase.getSupplier());
         return this.purchaseRepo.save(p);
@@ -51,5 +46,10 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<Purchase> findAll() {
         return this.purchaseRepo.findAll();
+    }
+
+    @Override
+    public Purchase findById(Long id) {
+        return this.purchaseRepo.findById(id).orElse(null);
     }
 }

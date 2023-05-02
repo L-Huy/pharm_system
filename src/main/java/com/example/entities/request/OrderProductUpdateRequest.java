@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderAddRequest {
-    private Long employeeId;
-    private Long customerId;
-
+public class OrderProductUpdateRequest {
+    private Long orderId;
+    private Long stockId;
+    private int qty;
+    private double salePrice;
 }

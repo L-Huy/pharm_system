@@ -1,7 +1,6 @@
 package com.example.services.impl;
 
 import com.example.entities.Order;
-import com.example.entities.enumclass.invoiceEnum;
 import com.example.repositories.OrderRepo;
 import com.example.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +15,10 @@ public class OrderServiceImpl implements OrderService {
     public OrderServiceImpl(OrderRepo orderRepo){
         this.orderRepo = orderRepo;
     }
+
     @Override
     public Order add(Order order) {
         order.setCreatedBy("Admin");
-        order.setInvoice_stat(invoiceEnum.valueOf("unpaid"));
         return this.orderRepo.save(order);
     }
 
@@ -30,8 +29,6 @@ public class OrderServiceImpl implements OrderService {
             return null;
         }
         o.setUpdatedBy("Admin");
-        o.setInvoice_stat(order.getInvoice_stat());
-        o.setTotal_payment(order.getTotal_payment()); //will change later with auto calculation from tb_order_products
         o.setEmployee(order.getEmployee());
         o.setCustomer(order.getCustomer());
         return this.orderRepo.save(o);
@@ -50,5 +47,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findAll() {
         return this.orderRepo.findAll();
+    }
+
+    @Override
+    public Order findById(Long id) {
+        return this.orderRepo.findById(id).orElse(null);
     }
 }

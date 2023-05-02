@@ -16,8 +16,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_purchaseINV")
 
 public class PurchaseInvoice extends BaseEntity {
-    @Column(length = 13, nullable = false)
-    private String invoice;
 
     @ManyToOne
     @JoinColumn(name = "purchase_id")
@@ -29,10 +27,5 @@ public class PurchaseInvoice extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "paymentType_id")
     private PaymentType paymentType;
-
-
-    @Column(name = "invoice_status", length = 20, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private invoiceEnum invoice_stat;
 
 }

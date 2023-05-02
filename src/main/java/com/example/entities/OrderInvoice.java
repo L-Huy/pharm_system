@@ -16,8 +16,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_orderINV")
 
 public class OrderInvoice extends BaseEntity {
-    @Column(length = 13, nullable = false)
-    private String invoice;
 
     @OneToOne
     @JoinColumn(name = "order_id")

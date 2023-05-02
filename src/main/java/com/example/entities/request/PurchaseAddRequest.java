@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class PurchaseAddRequest {
     private Long employeeId;
     private Long supplierId;
-    private double totalPayment; //will delete later and replace by auto calculation
+
 }

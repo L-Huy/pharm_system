@@ -38,7 +38,6 @@ public class PurchaseController {
             System.out.println("Supplier Id is not found!");
             return null;
         } else {
-            purchase.setTotal_payment(req.getTotalPayment());
             purchase.setEmployee(employee);
             purchase.setSupplier(supplier);
             this.purchaseService.add(purchase);
@@ -58,7 +57,6 @@ public class PurchaseController {
             System.out.println("Supplier Id is not found!");
             return null;
         } else {
-            purchase.setTotal_payment(req.getTotalPayment());
             purchase.setEmployee(employee);
             purchase.setSupplier(supplier);
             this.purchaseService.add(purchase);

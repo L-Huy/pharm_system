@@ -27,13 +27,6 @@ public class Order extends BaseEntity {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @Column(nullable = false, columnDefinition = "DECIMAL(10,2)", updatable = false)
-    private double total_payment;
-
-    @Column(name = "invoice_status", length = 20, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private invoiceEnum invoice_stat;
-
     @OneToOne(mappedBy = "order")
     private OrderInvoice orderInvoice;
 
