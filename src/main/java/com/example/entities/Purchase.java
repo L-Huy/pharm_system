@@ -27,13 +27,6 @@ public class Purchase extends BaseEntity {
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
-    @Column(nullable = false, columnDefinition = "DECIMAL(10,2)", updatable = false)
-    private double total_payment;
-
-    @Column(name = "invoice_status", length = 20, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private invoiceEnum invoice_stat;
-
     @OneToMany(mappedBy = "purchase")
     private List<PurchaseInvoice> purchaseInvoices;
 

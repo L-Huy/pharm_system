@@ -9,4 +9,5 @@ public interface StockService {
     Stock update(Stock stock);
     boolean deleteById(Long id);
     List<Stock> findAll();
+    Stock findById(Long id);
 }

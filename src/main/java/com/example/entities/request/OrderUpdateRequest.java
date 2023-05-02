@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderUpdateRequest {
-    private String invoiceStat;
-    private double totalPayment; //will delete later and replace by auto calculation
     private Long employeeId;
     private Long customerId;
 }

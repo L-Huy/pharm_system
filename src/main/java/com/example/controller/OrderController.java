@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.entities.*;
-import com.example.entities.enumclass.invoiceEnum;
 import com.example.entities.request.OrderAddRequest;
 import com.example.entities.request.OrderUpdateRequest;
 import com.example.services.CustomerService;
@@ -39,7 +38,6 @@ public class OrderController {
             System.out.println("Customer Id is not found!");
             return null;
         } else {
-            order.setTotal_payment(req.getTotalPayment());
             order.setEmployee(employee);
             order.setCustomer(customer);
             this.orderService.add(order);
@@ -59,8 +57,6 @@ public class OrderController {
             System.out.println("Customer Id is not found!");
             return null;
         } else {
-            order.setInvoice_stat(invoiceEnum.valueOf(req.getInvoiceStat()));
-            order.setTotal_payment(req.getTotalPayment());
             order.setEmployee(employee);
             order.setCustomer(customer);
             this.orderService.update(order);

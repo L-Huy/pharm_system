@@ -9,4 +9,5 @@ public interface OrderService {
     Order update(Order order);
     boolean deleteById(Long id);
     List<Order> findAll();
+    Order findById(Long id);
 }
