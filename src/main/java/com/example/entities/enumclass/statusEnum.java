@@ -1,9 +1,9 @@
 package com.example.entities.enumclass;
 
 public enum statusEnum {
-    active("ACTIVE"),
-    inactive("INACTIVE"),
-    suspend("SUSPEND");
+    ACTIVE("ACTIVE"),
+    INACTIVE("INACTIVE"),
+    SUSPEND("SUSPEND");
 
     private final String code;
 

@@ -1,9 +1,14 @@
 package com.example.services.impl;
 
 import com.example.entities.OrderInvoice;
+import com.example.entities.projections.OrderInvoiceProjection;
+import com.example.entities.projections.OrderProjection;
+import com.example.entities.response.pagination;
 import com.example.repositories.OrderInvoiceRepo;
 import com.example.services.OrderInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +21,15 @@ public class OrderInvoiceServiceImpl implements OrderInvoiceService {
         this.orderInvoiceRepo = orderInvoiceRepo;
     }
 
+
+    @Override
+    public List<OrderInvoiceProjection> findOrderInvoiceProjectionAll(pagination p) {
+        Page<OrderInvoiceProjection> ord = orderInvoiceRepo.findAllOrderInvoiceProjectionBy(
+                PageRequest.of(p.getPage()-1, p.getSize())
+        );
+        p.setTotalCounts(ord.getTotalElements());
+        return ord.getContent() ;
+    }
 
     @Override
     public OrderInvoice add(OrderInvoice orderInvoice) {
@@ -47,7 +61,8 @@ public class OrderInvoiceServiceImpl implements OrderInvoiceService {
     }
 
     @Override
-    public List<OrderInvoice> findAll() {
-        return this.orderInvoiceRepo.findAll();
+    public OrderInvoice findById(Long id) {
+        return this.orderInvoiceRepo.findById(id).orElse(null);
     }
+
 }

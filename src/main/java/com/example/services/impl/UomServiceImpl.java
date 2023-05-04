@@ -1,9 +1,14 @@
 package com.example.services.impl;
 
 import com.example.entities.Uom;
+import com.example.entities.projections.SupplierProjection;
+import com.example.entities.projections.UomProjection;
+import com.example.entities.response.pagination;
 import com.example.repositories.UomRepo;
 import com.example.services.UomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +21,15 @@ public class UomServiceImpl implements UomService {
         this.uomRepo = uomRepo;
     }
 
-/*    @Override
-    public List<Uom> findAll() {
-        return uomRepo.findAll();
-    }*/
+
+    @Override
+    public List<UomProjection> findUomProjectionAll(pagination p) {
+        Page<UomProjection> uom = uomRepo.findAllUomProjectionBy(
+                PageRequest.of(p.getPage()-1, p.getSize())
+        );
+        p.setTotalCounts(uom.getTotalElements());
+        return uom.getContent() ;
+    }
 
     @Override
     public Uom add(Uom uom) {
@@ -52,4 +62,5 @@ public class UomServiceImpl implements UomService {
     public Uom findById(Long id) {
         return uomRepo.findById(id).orElse(null);
     }
+
 }

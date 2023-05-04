@@ -1,9 +1,14 @@
 package com.example.services.impl;
 
 import com.example.entities.Purchase;
+import com.example.entities.projections.OrderProjection;
+import com.example.entities.projections.PurchaseProjection;
+import com.example.entities.response.pagination;
 import com.example.repositories.PurchaseRepo;
 import com.example.services.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +20,17 @@ public class PurchaseServiceImpl implements PurchaseService {
     public PurchaseServiceImpl(PurchaseRepo purchaseRepo){
         this.purchaseRepo = purchaseRepo;
     }
+
+
+    @Override
+    public List<PurchaseProjection> findPurchaseProjectionAll(pagination p) {
+        Page<PurchaseProjection> pur = purchaseRepo.findAllPurchaseProjectionBy(
+                PageRequest.of(p.getPage()-1, p.getSize())
+        );
+        p.setTotalCounts(pur.getTotalElements());
+        return pur.getContent() ;
+    }
+
     @Override
     public Purchase add(Purchase purchase) {
         purchase.setCreatedBy("Admin");
@@ -41,11 +57,6 @@ public class PurchaseServiceImpl implements PurchaseService {
         }
         this.purchaseRepo.deleteById(id);
         return true;
-    }
-
-    @Override
-    public List<Purchase> findAll() {
-        return this.purchaseRepo.findAll();
     }
 
     @Override

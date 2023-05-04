@@ -1,9 +1,14 @@
 package com.example.services.impl;
 
 import com.example.entities.Stock;
+import com.example.entities.projections.ProductProjection;
+import com.example.entities.projections.StockProjection;
+import com.example.entities.response.pagination;
 import com.example.repositories.StockRepo;
 import com.example.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +20,17 @@ public class StockServiceImpl implements StockService {
     public StockServiceImpl(StockRepo stockRepo){
         this.stockRepo = stockRepo;
     }
+
+
+    @Override
+    public List<StockProjection> findStockProjectionAll(pagination p) {
+        Page<StockProjection> sto = stockRepo.findAllStockProjectionBy(
+                PageRequest.of(p.getPage()-1, p.getSize())
+        );
+        p.setTotalCounts(sto.getTotalElements());
+        return sto.getContent() ;
+    }
+
     @Override
     public Stock add(Stock stock) {
         stock.setCreatedBy("Admin");
@@ -42,11 +58,6 @@ public class StockServiceImpl implements StockService {
         }
         this.stockRepo.deleteById(id);
         return true;
-    }
-
-    @Override
-    public List<Stock> findAll() {
-        return this.stockRepo.findAll();
     }
 
     @Override

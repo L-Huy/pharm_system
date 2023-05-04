@@ -1,14 +1,21 @@
 package com.example.controller;
 
 import com.example.entities.*;
+import com.example.entities.projections.PurchaseProductProjection;
+import com.example.entities.projections.PurchaseProjection;
 import com.example.entities.request.PurchaseProductAddRequest;
 import com.example.entities.request.PurchaseProductUpdateRequest;
+import com.example.entities.response.pagination;
 import com.example.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
-@RequestMapping("/purchaseProduct")
+@RequestMapping("/api/v1/pharmpos/purchaseProduct")
 public class PurchaseProductController {
     private PurchaseProductService purchaseProductService;
     private PurchaseService purchaseService;
@@ -69,5 +76,14 @@ public class PurchaseProductController {
     @DeleteMapping("/delete/{id}")
     public boolean delete(@PathVariable Long id){
         return this.purchaseProductService.deleteById(id);
+    }
+
+    @GetMapping("/findAll")
+    public Map<String, Object> findAll(pagination p){
+        List<PurchaseProductProjection> pur = this.purchaseProductService.findPurchaseProductProjectionAll(p);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", pur);
+        map.put("pagination", p);
+        return map;
     }
 }

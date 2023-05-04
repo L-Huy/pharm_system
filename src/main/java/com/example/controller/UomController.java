@@ -1,14 +1,19 @@
 package com.example.controller;
 
 import com.example.entities.Uom;
+import com.example.entities.projections.SupplierProjection;
+import com.example.entities.projections.UomProjection;
+import com.example.entities.response.pagination;
 import com.example.services.UomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/uom")
+@RequestMapping("/api/v1/pharmpos/uom")
 public class UomController {
     private UomService uomService;
     @Autowired
@@ -36,10 +41,13 @@ public class UomController {
 /*    @GetMapping("/find/{id}")
     public Uom findById(@PathVariable Long id){
         return this.uomService.findById(id);
-    }
-
-    @GetMapping("/find")
-    public List<Uom> findAll(){
-        return this.uomService.findAll();
     }*/
+    @GetMapping("/findAll")
+    public Map<String, Object> findAll(pagination p){
+        List<UomProjection> uom = this.uomService.findUomProjectionAll(p);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", uom);
+        map.put("pagination", p);
+        return map;
+    }
 }

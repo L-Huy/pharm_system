@@ -1,9 +1,14 @@
 package com.example.services.impl;
 
 import com.example.entities.PurchaseProduct;
+import com.example.entities.projections.OrderProductProjection;
+import com.example.entities.projections.PurchaseProductProjection;
+import com.example.entities.response.pagination;
 import com.example.repositories.PurchaseProductRepo;
 import com.example.services.PurchaseProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +19,16 @@ public class PurchaseProductServiceImpl implements PurchaseProductService {
     @Autowired
     public PurchaseProductServiceImpl(PurchaseProductRepo purchaseProductRepo){
         this.purchaseProductRepo = purchaseProductRepo;
+    }
+
+
+    @Override
+    public List<PurchaseProductProjection> findPurchaseProductProjectionAll(pagination p) {
+        Page<PurchaseProductProjection> pur = purchaseProductRepo.findAllPurchaseProductProjectionBy(
+                PageRequest.of(p.getPage()-1, p.getSize())
+        );
+        p.setTotalCounts(pur.getTotalElements());
+        return pur.getContent() ;
     }
 
     @Override
@@ -47,7 +62,8 @@ public class PurchaseProductServiceImpl implements PurchaseProductService {
     }
 
     @Override
-    public List<PurchaseProduct> findAll() {
-        return this.purchaseProductRepo.findAll();
+    public PurchaseProduct findById(Long id) {
+        return this.purchaseProductRepo.findById(id).orElse(null);
     }
+
 }

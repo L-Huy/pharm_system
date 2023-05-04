@@ -39,7 +39,7 @@ public abstract class BaseEntity {
     @PrePersist
     void prePersist() {
         if (status == null) {
-            status = status.active;
+            status = status.ACTIVE;
         }
     }
 

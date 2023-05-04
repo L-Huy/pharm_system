@@ -1,9 +1,14 @@
 package com.example.services.impl;
 
 import com.example.entities.PurchaseInvoice;
+import com.example.entities.projections.PurchaseInvoiceProjection;
+import com.example.entities.projections.PurchaseProjection;
+import com.example.entities.response.pagination;
 import com.example.repositories.PurchaseInvoiceRepo;
 import com.example.services.PurchaseInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +21,15 @@ public class PurchaseInvoiceServiceImpl implements PurchaseInvoiceService {
         this.purchaseInvoiceRepo = purchaseInvoiceRepo;
     }
 
+
+    @Override
+    public List<PurchaseInvoiceProjection> findPurchaseInvoiceProjectionAll(pagination p) {
+        Page<PurchaseInvoiceProjection> pur = purchaseInvoiceRepo.findAllPurchaseInvoiceProjectionBy(
+                PageRequest.of(p.getPage()-1, p.getSize())
+        );
+        p.setTotalCounts(pur.getTotalElements());
+        return pur.getContent() ;
+    }
 
     @Override
     public PurchaseInvoice add(PurchaseInvoice purchaseInvoice) {
@@ -47,7 +61,8 @@ public class PurchaseInvoiceServiceImpl implements PurchaseInvoiceService {
     }
 
     @Override
-    public List<PurchaseInvoice> findAll() {
-        return this.purchaseInvoiceRepo.findAll();
+    public PurchaseInvoice findById(Long id) {
+        return this.purchaseInvoiceRepo.findById(id).orElse(null);
     }
+
 }
