@@ -1,14 +1,20 @@
 package com.example.controller;
 
 import com.example.entities.*;
+import com.example.entities.projections.OrderProductProjection;
 import com.example.entities.request.OrderProductAddRequest;
 import com.example.entities.request.OrderProductUpdateRequest;
+import com.example.entities.response.pagination;
 import com.example.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
-@RequestMapping("/orderProduct")
+@RequestMapping("/api/v1/pharmpos/orderProduct")
 public class OrderProductController {
     private OrderProductService orderProductService;
     private OrderService orderService;
@@ -69,6 +75,15 @@ public class OrderProductController {
     @DeleteMapping("/delete/{id}")
     public boolean delete(@PathVariable Long id){
         return this.orderProductService.deleteById(id);
+    }
+
+    @GetMapping("/findAll")
+    public Map<String, Object> findAll(pagination p){
+        List<OrderProductProjection> ord = this.orderProductService.findOrderProductProjectionAll(p);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", ord);
+        map.put("pagination", p);
+        return map;
     }
 }
 

@@ -1,14 +1,18 @@
 package com.example.controller;
 
 import com.example.entities.Customer;
+import com.example.entities.projections.CustomerProjection;
+import com.example.entities.response.pagination;
 import com.example.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/api/v1/pharmpos/customer")
 public class CustomerController {
     private CustomerService customerService;
     @Autowired
@@ -33,14 +37,18 @@ public class CustomerController {
         return this.customerService.deleteById(id);
     }
 
-    @GetMapping("/find/{id}")
+/*    @GetMapping("/find/{id}")
     public Customer findById(@PathVariable Long id){
         return this.customerService.findById(id);
-    }
+    }*/
 
-    @GetMapping("/find")
-    public List<Customer> findAll(){
-        return this.customerService.findAll();
+    @GetMapping("/findAll")
+    public Map<String, Object> findAll(pagination p){
+        List<CustomerProjection> cus = this.customerService.findCustomerProjectionAll(p);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", cus);
+        map.put("pagination", p);
+        return map;
     }
 
 }

@@ -1,9 +1,14 @@
 package com.example.services.impl;
 
 import com.example.entities.Product;
+import com.example.entities.projections.PaymentProjection;
+import com.example.entities.projections.ProductProjection;
+import com.example.entities.response.pagination;
 import com.example.repositories.ProductRepo;
 import com.example.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +22,16 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepo productRepo){
         this.productRepo = productRepo;
     }
-//    @Override
-//    public List<Product> findAll() {
-//        return this.productRepo.findAll();
-//    }
+
+
+    @Override
+    public List<ProductProjection> findProductProjectionAll(pagination p) {
+        Page<ProductProjection> prod = productRepo.findAllProductProjectionBy(
+                PageRequest.of(p.getPage()-1, p.getSize())
+        );
+        p.setTotalCounts(prod.getTotalElements());
+        return prod.getContent() ;
+    }
 
     @Override
     public Product add(Product product) {

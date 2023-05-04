@@ -1,14 +1,19 @@
 package com.example.controller;
 
 import com.example.entities.Supplier;
+import com.example.entities.projections.ProductProjection;
+import com.example.entities.projections.SupplierProjection;
+import com.example.entities.response.pagination;
 import com.example.services.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/supplier")
+@RequestMapping("/api/v1/pharmpos/supplier")
 public class SupplierController {
     private SupplierService supplierService;
     @Autowired
@@ -33,13 +38,17 @@ public class SupplierController {
         return this.supplierService.deleteById(id);
     }
 
-    @GetMapping("/find/{id}")
+/*    @GetMapping("/find/{id}")
     public Supplier findById(@PathVariable Long id){
         return this.supplierService.findById(id);
-    }
+    }*/
 
-    @GetMapping("/find")
-    public List<Supplier> findAll(){
-        return this.supplierService.findAll();
+    @GetMapping("/findAll")
+    public Map<String, Object> findAll(pagination p){
+        List<SupplierProjection> supp = this.supplierService.findSupplierProjectionAll(p);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", supp);
+        map.put("pagination", p);
+        return map;
     }
 }

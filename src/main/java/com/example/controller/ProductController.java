@@ -1,14 +1,19 @@
 package com.example.controller;
 
 import com.example.entities.Product;
+import com.example.entities.projections.PaymentProjection;
+import com.example.entities.projections.ProductProjection;
+import com.example.entities.response.pagination;
 import com.example.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/api/v1/pharmpos/product")
 public class ProductController {
     private ProductService productService;
     @Autowired
@@ -36,10 +41,14 @@ public class ProductController {
 /*    @GetMapping("/find/{id}")
     public Product findById(@PathVariable Long id){
         return this.productService.findById(id);
-    }
-
-    @GetMapping("/find")
-    public List<Product> findAll(){
-        return this.productService.findAll();
     }*/
+
+    @GetMapping("/findAll")
+    public Map<String, Object> findAll(pagination p){
+        List<ProductProjection> prod = this.productService.findProductProjectionAll(p);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", prod);
+        map.put("pagination", p);
+        return map;
+    }
 }

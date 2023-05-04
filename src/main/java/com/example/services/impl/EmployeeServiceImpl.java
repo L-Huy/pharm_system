@@ -1,9 +1,14 @@
 package com.example.services.impl;
 
 import com.example.entities.Employee;
+import com.example.entities.projections.CustomerProjection;
+import com.example.entities.projections.EmployeeProjection;
+import com.example.entities.response.pagination;
 import com.example.repositories.EmployeeRepo;
 import com.example.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +22,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeServiceImpl(EmployeeRepo employeeRepo){
         this.employeeRepo = employeeRepo;
     }
+
+
     @Override
-    public List<Employee> findAll() {
-        return this.employeeRepo.findAll();
+    public List<EmployeeProjection> findEmployeeProjectionAll(pagination p) {
+        Page<EmployeeProjection> emp = employeeRepo.findAllEmployeeProjectionBy(
+                PageRequest.of(p.getPage()-1, p.getSize())
+        );
+        p.setTotalCounts(emp.getTotalElements());
+        return emp.getContent() ;
     }
 
     @Override

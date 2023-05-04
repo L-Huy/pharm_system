@@ -3,18 +3,23 @@ package com.example.controller;
 import com.example.entities.Product;
 import com.example.entities.Stock;
 import com.example.entities.Uom;
+import com.example.entities.projections.ProductProjection;
+import com.example.entities.projections.StockProjection;
 import com.example.entities.request.StockAddRequest;
 import com.example.entities.request.StockUpdateRequest;
+import com.example.entities.response.pagination;
 import com.example.services.ProductService;
 import com.example.services.StockService;
 import com.example.services.UomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/stock")
+@RequestMapping("/api/v1/pharmpos/stock")
 public class StockController {
     private StockService stockService;
     private ProductService productService;
@@ -69,9 +74,18 @@ public class StockController {
         return this.stockService.deleteById(id);
     }
 
-//    @GetMapping("/find")
-//    public List<Stock> findAll(){
-//        return this.stockService.findAll();
-//    }
+/*    @GetMapping("/find/{id}")
+    public Stock findById(@PathVariable Long id){
+        return this.stockService.findById(id);
+    }*/
+
+    @GetMapping("/findAll")
+    public Map<String, Object> findAll(pagination p){
+        List<StockProjection> sto = this.stockService.findStockProjectionAll(p);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", sto);
+        map.put("pagination", p);
+        return map;
+    }
 
 }

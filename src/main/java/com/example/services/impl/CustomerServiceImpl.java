@@ -1,9 +1,13 @@
 package com.example.services.impl;
 
 import com.example.entities.Customer;
+import com.example.entities.projections.CustomerProjection;
+import com.example.entities.response.pagination;
 import com.example.repositories.CustomerRepo;
 import com.example.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,9 +22,14 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepo = customerRepo;
     }
 
+
     @Override
-    public List<Customer> findAll() {
-        return customerRepo.findAll();
+    public List<CustomerProjection> findCustomerProjectionAll(pagination p) {
+        Page<CustomerProjection> cus = customerRepo.findAllCustomerProjectionBy(
+                PageRequest.of(p.getPage()-1, p.getSize())
+        );
+        p.setTotalCounts(cus.getTotalElements());
+        return cus.getContent() ;
     }
 
     @Override
