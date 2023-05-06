@@ -45,11 +45,13 @@ public class EmployeeServiceImpl implements EmployeeService {
             return null;
         }
         e.setUpdatedBy("Admin");
+        e.setId(employee.getId());
         e.setEmp_name(employee.getEmp_name());
         e.setAge(employee.getAge());
         e.setPhone_num(employee.getPhone_num());
         e.setGender(employee.getGender());
         e.setHome_address(employee.getHome_address());
+        e.setStatus(employee.getStatus());
         return this.employeeRepo.save(e);
     }
 

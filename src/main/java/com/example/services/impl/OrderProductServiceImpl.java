@@ -43,10 +43,12 @@ public class OrderProductServiceImpl implements OrderProductService {
             return null;
         }
         op.setUpdatedBy("Admin");
+        op.setId(orderProduct.getId());
         op.setOrder(orderProduct.getOrder());
         op.setStock(orderProduct.getStock());
         op.setQty(orderProduct.getQty());
         op.setSale_price(orderProduct.getSale_price());
+        op.setStatus(orderProduct.getStatus());
         return this.orderProductRepo.save(op);
     }
 

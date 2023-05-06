@@ -46,8 +46,10 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
         p.setUpdatedBy("Admin");
+        p.setId(product.getId());
         p.setProduct_name(product.getProduct_name());
         p.setTreatment(product.getTreatment());
+        p.setStatus(product.getStatus());
         return this.productRepo.save(p);
     }
 

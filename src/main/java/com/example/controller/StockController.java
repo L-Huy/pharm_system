@@ -7,6 +7,8 @@ import com.example.entities.projections.ProductProjection;
 import com.example.entities.projections.StockProjection;
 import com.example.entities.request.StockAddRequest;
 import com.example.entities.request.StockUpdateRequest;
+import com.example.entities.response.ApiResponse;
+import com.example.entities.response.ApiStatus;
 import com.example.entities.response.pagination;
 import com.example.services.ProductService;
 import com.example.services.StockService;
@@ -36,7 +38,7 @@ public class StockController {
         this.uomService = uomService;
     }
     @PostMapping("/create")
-    public String addStock(@RequestBody StockAddRequest req) {
+    public ApiResponse addStock(@RequestBody StockAddRequest req) {
         Stock stock = new Stock();
         Product product = this.productService.findById(req.getProductId());
         Uom uom = this.uomService.findById(req.getUomId());
@@ -48,12 +50,14 @@ public class StockController {
         stock.setUom(uom);
         stock.setProduct(product);
         this.stockService.add(stock);
-        return "Added a stock successfully!";
+        return new ApiResponse<>(
+                ApiStatus.SUC_CREATED.getCode(),
+                ApiStatus.SUC_CREATED.getMessage());
     }
 
 
     @PutMapping("/update")
-    public String updateStock(@RequestBody StockUpdateRequest req) {
+    public ApiResponse updateStock(@RequestBody StockUpdateRequest req) {
         Stock stock = new Stock();
         Product product = this.productService.findById(req.getProductId());
         Uom uom = this.uomService.findById(req.getUomId());
@@ -65,13 +69,19 @@ public class StockController {
         stock.setQty_on_hand(req.getQty_on_hand());
         stock.setUom(uom);
         stock.setProduct(product);
+        stock.setStatus(req.getStatusCode());
         this.stockService.update(stock);
-        return "Updated a stock successfully!";
+        return new ApiResponse<>(
+                ApiStatus.SUC_UPDATED.getCode(),
+                ApiStatus.SUC_UPDATED.getMessage());
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id){
-        return this.stockService.deleteById(id);
+    public ApiResponse delete(@PathVariable Long id){
+        this.stockService.deleteById(id);
+        return new ApiResponse<>(
+                ApiStatus.SUC_DELETED.getCode(),
+                ApiStatus.SUC_DELETED.getMessage());
     }
 
 /*    @GetMapping("/find/{id}")

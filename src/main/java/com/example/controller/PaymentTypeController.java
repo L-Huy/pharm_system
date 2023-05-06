@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.entities.PaymentType;
 import com.example.entities.projections.EmployeeProjection;
 import com.example.entities.projections.PaymentProjection;
+import com.example.entities.response.ApiResponse;
+import com.example.entities.response.ApiStatus;
 import com.example.entities.response.pagination;
 import com.example.services.PaymentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +26,31 @@ public class PaymentTypeController {
     }
 
     @PostMapping("/create")
-    public PaymentType add(@RequestBody PaymentType paymentType){
-        return this.paymentTypeService.add(paymentType);
+    public ApiResponse add(@RequestBody PaymentType paymentType){
+        paymentType.setPayment_type(paymentType.getPayment_type());
+        this.paymentTypeService.add(paymentType);
+        return new ApiResponse<>(
+                ApiStatus.SUC_CREATED.getCode(),
+                ApiStatus.SUC_CREATED.getMessage());
     }
 
     @PutMapping("/update")
-    public PaymentType update(@RequestBody PaymentType paymentType){
-        return this.paymentTypeService.update(paymentType);
+    public ApiResponse update(@RequestBody PaymentType paymentType){
+        paymentType.setId(paymentType.getId());
+        paymentType.setPayment_type(paymentType.getPayment_type());
+        paymentType.setStatus(paymentType.getStatus());
+        this.paymentTypeService.update(paymentType);
+        return new ApiResponse<>(
+                ApiStatus.SUC_UPDATED.getCode(),
+                ApiStatus.SUC_UPDATED.getMessage());
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id){
-        return this.paymentTypeService.deleteById(id);
+    public ApiResponse delete(@PathVariable Long id){
+        this.paymentTypeService.deleteById(id);
+        return new ApiResponse<>(
+                ApiStatus.SUC_DELETED.getCode(),
+                ApiStatus.SUC_DELETED.getMessage());
     }
 
 /*    @GetMapping("/find/{id}")

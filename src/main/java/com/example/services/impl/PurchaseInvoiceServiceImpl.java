@@ -44,9 +44,11 @@ public class PurchaseInvoiceServiceImpl implements PurchaseInvoiceService {
             return null;
         }
         pi.setUpdatedBy("Admin");
+        pi.setId(purchaseInvoice.getId());
         pi.setPurchase(purchaseInvoice.getPurchase());
         pi.setPaymentType(purchaseInvoice.getPaymentType());
         pi.setTotal_paid(purchaseInvoice.getTotal_paid());
+        pi.setStatus(purchaseInvoice.getStatus());
         return this.purchaseInvoiceRepo.save(pi);
     }
 

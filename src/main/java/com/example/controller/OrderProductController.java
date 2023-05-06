@@ -4,6 +4,8 @@ import com.example.entities.*;
 import com.example.entities.projections.OrderProductProjection;
 import com.example.entities.request.OrderProductAddRequest;
 import com.example.entities.request.OrderProductUpdateRequest;
+import com.example.entities.response.ApiResponse;
+import com.example.entities.response.ApiStatus;
 import com.example.entities.response.pagination;
 import com.example.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class OrderProductController {
         this.stockService = stockService;
     }
     @PostMapping("/create")
-    public String addOrderProduct(@RequestBody OrderProductAddRequest req) {
+    public ApiResponse addOrderProduct(@RequestBody OrderProductAddRequest req) {
         OrderProduct orderProduct = new OrderProduct();
         Order order = this.orderService.findById(req.getOrderId());
         Stock stock = this.stockService.findById(req.getStockId());
@@ -47,12 +49,14 @@ public class OrderProductController {
             orderProduct.setQty(req.getQty());
             orderProduct.setSale_price(req.getSalePrice());
             this.orderProductService.add(orderProduct);
-            return "Added ordered product(s) successfully!";
+            return new ApiResponse<>(
+                    ApiStatus.SUC_CREATED.getCode(),
+                    ApiStatus.SUC_CREATED.getMessage());
         }
     }
 
     @PutMapping("/update")
-    public String updateOrderProduct(@RequestBody OrderProductUpdateRequest req) {
+    public ApiResponse updateOrderProduct(@RequestBody OrderProductUpdateRequest req) {
         OrderProduct orderProduct = new OrderProduct();
         Order order = this.orderService.findById(req.getOrderId());
         Stock stock = this.stockService.findById(req.getStockId());
@@ -63,18 +67,25 @@ public class OrderProductController {
             System.out.println("Stock Id is not found!");
             return null;
         } else {
+            orderProduct.setId(req.getId());
             orderProduct.setOrder(order);
             orderProduct.setStock(stock);
             orderProduct.setQty(req.getQty());
             orderProduct.setSale_price(req.getSalePrice());
+            orderProduct.setStatus(req.getStatusCode());
             this.orderProductService.update(orderProduct);
-            return "Updated ordered product(s) successfully!";
+            return new ApiResponse<>(
+                    ApiStatus.SUC_UPDATED.getCode(),
+                    ApiStatus.SUC_UPDATED.getMessage());
         }
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id){
-        return this.orderProductService.deleteById(id);
+    public ApiResponse delete(@PathVariable Long id){
+        this.orderProductService.deleteById(id);
+        return new ApiResponse<>(
+                ApiStatus.SUC_DELETED.getCode(),
+                ApiStatus.SUC_DELETED.getMessage());
     }
 
     @GetMapping("/findAll")

@@ -44,8 +44,10 @@ public class OrderServiceImpl implements OrderService {
             return null;
         }
         o.setUpdatedBy("Admin");
+        o.setId(order.getId());
         o.setEmployee(order.getEmployee());
         o.setCustomer(order.getCustomer());
+        o.setStatus(order.getStatus());
         return this.orderRepo.save(o);
     }
 

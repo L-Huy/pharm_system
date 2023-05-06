@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.entities.Product;
 import com.example.entities.projections.PaymentProjection;
 import com.example.entities.projections.ProductProjection;
+import com.example.entities.response.ApiResponse;
+import com.example.entities.response.ApiStatus;
 import com.example.entities.response.pagination;
 import com.example.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +26,33 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public Product add(@RequestBody Product product){
-        return this.productService.add(product);
+    public ApiResponse add(@RequestBody Product product){
+        product.setProduct_name(product.getProduct_name());
+        product.setTreatment(product.getTreatment());
+        this.productService.add(product);
+        return new ApiResponse<>(
+                ApiStatus.SUC_CREATED.getCode(),
+                ApiStatus.SUC_CREATED.getMessage());
     }
 
     @PutMapping("/update")
-    public Product update(@RequestBody Product product){
-        return this.productService.update(product);
+    public ApiResponse update(@RequestBody Product product){
+        product.setId(product.getId());
+        product.setProduct_name(product.getProduct_name());
+        product.setTreatment(product.getTreatment());
+        product.setStatus(product.getStatus());
+        this.productService.update(product);
+        return new ApiResponse<>(
+                ApiStatus.SUC_UPDATED.getCode(),
+                ApiStatus.SUC_UPDATED.getMessage());
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id){
-        return this.productService.deleteById(id);
+    public ApiResponse delete(@PathVariable Long id){
+        this.productService.deleteById(id);
+        return new ApiResponse<>(
+                ApiStatus.SUC_DELETED.getCode(),
+                ApiStatus.SUC_DELETED.getMessage());
     }
 
 /*    @GetMapping("/find/{id}")

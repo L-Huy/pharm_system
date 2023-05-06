@@ -3,6 +3,8 @@ package com.example.controller;
 import com.example.entities.Supplier;
 import com.example.entities.projections.ProductProjection;
 import com.example.entities.projections.SupplierProjection;
+import com.example.entities.response.ApiResponse;
+import com.example.entities.response.ApiStatus;
 import com.example.entities.response.pagination;
 import com.example.services.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,25 @@ public class SupplierController {
     }
 
     @PostMapping("/create")
-    public Supplier add(@RequestBody Supplier supplier){
-        return this.supplierService.add(supplier);
+    public ApiResponse add(@RequestBody Supplier supplier){
+        supplier.setCompany_name(supplier.getCompany_name());
+        supplier.setSupplier_type(supplier.getSupplier_type());
+        supplier.setAddress(supplier.getAddress());
+        supplier.setPhone_num(supplier.getPhone_num());
+        this.supplierService.add(supplier);
+        return new ApiResponse<>(
+                ApiStatus.SUC_CREATED.getCode(),
+                ApiStatus.SUC_CREATED.getMessage());
     }
 
     @PutMapping("/update")
     public Supplier update(@RequestBody Supplier supplier){
+        supplier.setId(supplier.getId());
+        supplier.setCompany_name(supplier.getCompany_name());
+        supplier.setSupplier_type(supplier.getSupplier_type());
+        supplier.setAddress(supplier.getAddress());
+        supplier.setPhone_num(supplier.getPhone_num());
+        supplier.setStatus(supplier.getStatus());
         return this.supplierService.update(supplier);
     }
 

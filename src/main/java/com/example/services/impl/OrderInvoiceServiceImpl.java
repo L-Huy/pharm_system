@@ -44,9 +44,11 @@ public class OrderInvoiceServiceImpl implements OrderInvoiceService {
             return null;
         }
         oi.setUpdatedBy("Admin");
+        oi.setId(orderInvoice.getId());
         oi.setOrder(orderInvoice.getOrder());
         oi.setPaymentType(orderInvoice.getPaymentType());
         oi.setTotal_paid(orderInvoice.getTotal_paid());
+        oi.setStatus(orderInvoice.getStatus());
         return this.orderInvoiceRepo.save(oi);
     }
 

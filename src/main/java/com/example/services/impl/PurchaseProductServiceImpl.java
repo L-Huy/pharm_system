@@ -44,10 +44,12 @@ public class PurchaseProductServiceImpl implements PurchaseProductService {
             return null;
         }
         pp.setUpdatedBy("Admin");
+        pp.setId(purchaseProduct.getId());
         pp.setPurchase(purchaseProduct.getPurchase());
         pp.setStock(purchaseProduct.getStock());
         pp.setQty(purchaseProduct.getQty());
         pp.setCost_price(purchaseProduct.getCost_price());
+        pp.setStatus(purchaseProduct.getStatus());
         return this.purchaseProductRepo.save(pp);
     }
 
