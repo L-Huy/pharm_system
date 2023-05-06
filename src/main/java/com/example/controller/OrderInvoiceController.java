@@ -5,6 +5,8 @@ import com.example.entities.projections.OrderInvoiceProjection;
 import com.example.entities.projections.OrderProjection;
 import com.example.entities.request.OrderInvoiceAddRequest;
 import com.example.entities.request.OrderInvoiceUpdateRequest;
+import com.example.entities.response.ApiResponse;
+import com.example.entities.response.ApiStatus;
 import com.example.entities.response.pagination;
 import com.example.services.OrderInvoiceService;
 import com.example.services.OrderService;
@@ -34,7 +36,7 @@ public class OrderInvoiceController {
         this.paymentTypeService = paymentTypeService;
     }
     @PostMapping("/create")
-    public String addOrderInvoice(@RequestBody OrderInvoiceAddRequest req) {
+    public ApiResponse addOrderInvoice(@RequestBody OrderInvoiceAddRequest req) {
         OrderInvoice orderInvoice = new OrderInvoice();
         Order order = this.orderService.findById(req.getOrderId());
         PaymentType paymentType = this.paymentTypeService.findById(req.getPaymentTypeId());
@@ -49,12 +51,14 @@ public class OrderInvoiceController {
             orderInvoice.setPaymentType(paymentType);
             orderInvoice.setTotal_paid(req.getTotalPaid());
             this.orderInvoiceService.add(orderInvoice);
-            return "Added an order invoice successfully!";
+            return new ApiResponse<>(
+                    ApiStatus.SUC_CREATED.getCode(),
+                    ApiStatus.SUC_CREATED.getMessage());
         }
     }
 
     @PutMapping("/update")
-    public String updateOrderProduct(@RequestBody OrderInvoiceUpdateRequest req) {
+    public ApiResponse updateOrderProduct(@RequestBody OrderInvoiceUpdateRequest req) {
         OrderInvoice orderInvoice = new OrderInvoice();
         Order order = this.orderService.findById(req.getOrderId());
         PaymentType paymentType = this.paymentTypeService.findById(req.getPaymentTypeId());
@@ -65,17 +69,24 @@ public class OrderInvoiceController {
             System.out.println("Payment Id is not found!");
             return null;
         } else {
+            orderInvoice.setId(req.getId());
             orderInvoice.setOrder(order);
             orderInvoice.setPaymentType(paymentType);
             orderInvoice.setTotal_paid(req.getTotalPaid());
+            orderInvoice.setStatus(req.getStatusCode());
             this.orderInvoiceService.update(orderInvoice);
-            return "Updated an order invoice successfully!";
+            return new ApiResponse<>(
+                    ApiStatus.SUC_UPDATED.getCode(),
+                    ApiStatus.SUC_UPDATED.getMessage());
         }
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id){
-        return this.orderInvoiceService.deleteById(id);
+    public ApiResponse delete(@PathVariable Long id){
+        this.orderInvoiceService.deleteById(id);
+        return new ApiResponse<>(
+                ApiStatus.SUC_DELETED.getCode(),
+                ApiStatus.SUC_DELETED.getMessage());
     }
 
     @GetMapping("/findAll")

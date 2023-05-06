@@ -44,7 +44,9 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
             return null;
         }
         pt.setUpdatedBy("Admin");
+        pt.setId(paymentType.getId());
         pt.setPayment_type(paymentType.getPayment_type());
+        pt.setStatus(paymentType.getStatus());
         return this.paymentTypeRepo.save(pt);
     }
 

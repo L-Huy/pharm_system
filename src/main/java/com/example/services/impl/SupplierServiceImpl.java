@@ -44,10 +44,12 @@ public class SupplierServiceImpl implements SupplierService {
             return null;
         }
         s.setUpdatedBy("Admin");
+        s.setId(supplier.getId());
         s.setCompany_name(supplier.getCompany_name());
         s.setSupplier_type(supplier.getSupplier_type());
         s.setPhone_num(supplier.getPhone_num());
         s.setAddress(supplier.getAddress());
+        s.setStatus(supplier.getStatus());
         return this.supplierRepo.save(s);
     }
 

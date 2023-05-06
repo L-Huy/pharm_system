@@ -5,6 +5,8 @@ import com.example.entities.projections.PurchaseInvoiceProjection;
 import com.example.entities.projections.PurchaseProjection;
 import com.example.entities.request.PurchaseInvoiceAddRequest;
 import com.example.entities.request.PurchaseInvoiceUpdateRequest;
+import com.example.entities.response.ApiResponse;
+import com.example.entities.response.ApiStatus;
 import com.example.entities.response.pagination;
 import com.example.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class PurchaseInvoiceController {
         this.paymentTypeService = paymentTypeService;
     }
     @PostMapping("/create")
-    public String addOrderInvoice(@RequestBody PurchaseInvoiceAddRequest req) {
+    public ApiResponse addOrderInvoice(@RequestBody PurchaseInvoiceAddRequest req) {
         PurchaseInvoice purchaseInvoice = new PurchaseInvoice();
         Purchase purchase = this.purchaseService.findById(req.getPurchaseId());
         PaymentType paymentType = this.paymentTypeService.findById(req.getPaymentTypeId());
@@ -47,12 +49,14 @@ public class PurchaseInvoiceController {
             purchaseInvoice.setPaymentType(paymentType);
             purchaseInvoice.setTotal_paid(req.getTotalPaid());
             this.purchaseInvoiceService.add(purchaseInvoice);
-            return "Added a purchase invoice successfully!";
+            return new ApiResponse<>(
+                    ApiStatus.SUC_CREATED.getCode(),
+                    ApiStatus.SUC_CREATED.getMessage());
         }
     }
 
     @PutMapping("/update")
-    public String updateOrderProduct(@RequestBody PurchaseInvoiceUpdateRequest req) {
+    public ApiResponse updateOrderProduct(@RequestBody PurchaseInvoiceUpdateRequest req) {
         PurchaseInvoice purchaseInvoice = new PurchaseInvoice();
         Purchase purchase = this.purchaseService.findById(req.getPurchaseId());
         PaymentType paymentType = this.paymentTypeService.findById(req.getPaymentTypeId());
@@ -63,17 +67,24 @@ public class PurchaseInvoiceController {
             System.out.println("Payment Id is not found!");
             return null;
         } else {
+            purchaseInvoice.setId(req.getId());
             purchaseInvoice.setPurchase(purchase);
             purchaseInvoice.setPaymentType(paymentType);
             purchaseInvoice.setTotal_paid(req.getTotalPaid());
+            purchaseInvoice.setStatus(req.getStatusCode());
             this.purchaseInvoiceService.add(purchaseInvoice);
-            return "Updated a purchase invoice successfully!";
+            return new ApiResponse<>(
+                    ApiStatus.SUC_UPDATED.getCode(),
+                    ApiStatus.SUC_UPDATED.getMessage());
         }
     }
 
     @DeleteMapping("/delete/{id}")
-    public boolean delete(@PathVariable Long id){
-        return this.purchaseInvoiceService.deleteById(id);
+    public ApiResponse delete(@PathVariable Long id){
+        this.purchaseInvoiceService.deleteById(id);
+        return new ApiResponse<>(
+                ApiStatus.SUC_DELETED.getCode(),
+                ApiStatus.SUC_DELETED.getMessage());
     }
 
     @GetMapping("/findAll")

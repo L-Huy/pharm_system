@@ -44,7 +44,9 @@ public class UomServiceImpl implements UomService {
             return null;
         }
         u.setUpdatedBy("Admin");
+        u.setId(uom.getId());
         u.setUom_name(uom.getUom_name());
+        u.setStatus(uom.getStatus());
         return this.uomRepo.save(u);
     }
 

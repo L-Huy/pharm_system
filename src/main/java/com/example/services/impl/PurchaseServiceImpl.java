@@ -44,8 +44,10 @@ public class PurchaseServiceImpl implements PurchaseService {
             return null;
         }
         p.setUpdatedBy("Admin");
+        p.setId(purchase.getId());
         p.setEmployee(purchase.getEmployee());
         p.setSupplier(purchase.getSupplier());
+        p.setStatus(purchase.getStatus());
         return this.purchaseRepo.save(p);
     }
 

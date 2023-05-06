@@ -44,9 +44,11 @@ public class StockServiceImpl implements StockService {
             return null;
         }
         s.setUpdatedBy("Admin");
+        s.setId(stock.getId());
         s.setQty_on_hand(stock.getQty_on_hand());
         s.setProduct(stock.getProduct());
         s.setUom(stock.getUom());
+        s.setStatus(stock.getStatus());
         return this.stockRepo.save(s);
     }
 
